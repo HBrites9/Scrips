@@ -19,12 +19,14 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--ChildHosts', type=str, required=True, help='Child Host\n 0 - Do nothing with child hosts \n 1 - Schedule triggered downtime for all chield hosts \n ')
     parser.add_argument('-a', '--all', type=str, default='0', help='All services? 0 or 1')
     parser.add_argument('-t', '--timezone', type=str, required=True, help='Timezone')
-    parser.add_argument('-s', '--start-time', type=str, required=True, help='Start time in format YYYY-MM-DDTHH:MM')
-    parser.add_argument('-e', '--end-time', type=str, required=True, help='End time in format YYYY-MM-DDTHH:MM')
+    parser.add_argument('-s', '--start-time', type=str, required=True, help='Start time in format YYYY-MM-DDTHH:mm')
+    parser.add_argument('-e', '--end-time', type=str, required=True, help='End time in format YYYY-MM-DDTHH:mm')
     args = parser.parse_args()
 
-    start_range = arrow.get(args.start_time, 'YYYY-MM-DDTHH:mm').replace(tzinfo=args.timezone)
-    end_range = arrow.get(args.end_time, 'YYYY-MM-DDTHH:mm').replace(tzinfo=args.timezone)
+    start_range = arrow.get(args.start_time, 'YYYY-MM-DDTHH:mm',tzinfo=args.timezone)
+    end_range = arrow.get(args.end_time, 'YYYY-MM-DDTHH:mm',tzinfo=args.timezone)
+    
+    print(end_range)
 
     format_date="YYYY-MM-DD"
     format_hours="HH:mm"
@@ -37,8 +39,8 @@ if __name__ == "__main__":
     print("    ranges = {")
     start_tz      = None
     end_tz        = None
-    prev_tz_start = start_range
-    prev_tz_end   = end_range
+    prev_start    = None
+    prev_end      = None
     printed       = False
     timezone      = "UTC"
 
@@ -52,39 +54,38 @@ if __name__ == "__main__":
             minute=end_range.minute
         )
         
-        
         # Handle start range
         start_tz=start.to(timezone)
             
         # Handle end range
         end_tz=end.to(timezone)
             
-        if None in [prev_tz_start,prev_tz_end]:
-            prev_tz_start=start
-            prev_tz_end=end
+        if None in [prev_start,prev_end]:
+            prev_start=start
+            prev_end=end
             
-        if prev_tz_start.dst() != start.dst() or prev_tz_end.dst() != end.dst():
+        if prev_start.dst() != start.dst() or prev_end.dst() != end.dst():
             #Daylight Savings in effect
             printed = True
 
             print("comment={},  \"{} - {}\" = \"{}-{}\", type1={}, All_service={}, Child_Hosts={}".format(
             comment,
-            prev_tz_start.to(timezone).format(format_date),
+            prev_start.to(timezone).format(format_date),
             end_tz.format(format_date),
-            prev_tz_start.to(timezone).format(format_hours),
-            end_tz.to(timezone).format(format_hours),
+            prev_start.to(timezone).format(format_hours),
+            prev_end.to(timezone).format(format_hours),
             type1,
             All_service,
             Child_Hosts
                     )
                 )
             
-            if prev_tz_start.dst() != start.dst():
-                    prev_tz_start = start
+            if prev_start.dst() != start.dst():
+                    prev_start = start
                     
                     
-            if prev_tz_end.dst() != end.dst():
-                    prev_tz_end = end
+            if prev_end.dst() != end.dst():
+                    prev_end = end
                    
         else:
             printed = False
@@ -92,9 +93,9 @@ if __name__ == "__main__":
     if printed is False:
         print("comment={},  \"{} - {}\" = \"{}-{}\", type1={}, All_service={}, Child_Hosts={}".format(
             comment,
-            prev_tz_start.format(format_date),
+            prev_start.to(timezone).format(format_date),
             end_tz.format(format_date),
-            start_tz.format(format_hours),
+            prev_start.to(timezone).format(format_hours),
             end_tz.format(format_hours),
             type1,
             All_service,
