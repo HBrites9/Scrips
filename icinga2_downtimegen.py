@@ -26,7 +26,13 @@ if __name__ == "__main__":
     start_range = arrow.get(args.start_time, 'YYYY-MM-DDTHH:mm',tzinfo=args.timezone)
     end_range = arrow.get(args.end_time, 'YYYY-MM-DDTHH:mm',tzinfo=args.timezone)
     
-    print(end_range)
+    if(end_range < start_range):
+        change = None
+        change = end_range
+        end_range = start_range
+        start_range = change
+
+        print("Your dates are changed, I correct for you")
 
     format_date="YYYY-MM-DD"
     format_hours="HH:mm"
