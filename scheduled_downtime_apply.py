@@ -96,7 +96,7 @@ if __name__ == "__main__":
     
     if(with_services == "0"):
         
-        print("apply ScheduleDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
+        print("apply ScheduledDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         
 
     if(with_services == "1"):
-        print("apply ScheduleDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
+        print("apply ScheduledDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         print("}")
         
 
-        print("apply ScheduleDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
+        print("apply ScheduledDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -127,7 +127,7 @@ if __name__ == "__main__":
         
 
     if(with_services == "2"):    
-        print("apply ScheduleDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
+        print("apply ScheduledDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
