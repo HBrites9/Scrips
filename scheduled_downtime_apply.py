@@ -76,7 +76,7 @@ if __name__ == "__main__":
             #Daylight Savings in effect
             printed = True
             
-            output += "\t \t \"{} - {}\" = \"{}-{}\" \n".format(
+            output += "\t \t \"{} - {}\" = \t \"{}-{}\" \n".format(
             prev_start.to(timezone).format(format_date),
             end_tz.format(format_date),
             prev_start.to(timezone).format(format_hours),
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     
     if(with_services == "0"):
         
-        print("apply ScheduleDowntime \"{}\" to Host  \n".format(downtime_name)) 
+        print("apply ScheduleDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -106,16 +106,18 @@ if __name__ == "__main__":
         
 
     if(with_services == "1"):
-        print("apply ScheduleDowntime \"{}\" to Host \n".format(downtime_name)) 
+        print("apply ScheduleDowntime \"{}\" to Host  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
         print(" \t assign where host.display_name == \"{}\"\n".format(display_name))
         print(" \t ranges = {")
         print(output)
+        print(" \t }")
+        print("}")
         
 
-        print("apply ScheduleDowntime \"{}\" to Service  \n".format(downtime_name)) 
+        print("apply ScheduleDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -125,7 +127,7 @@ if __name__ == "__main__":
         
 
     if(with_services == "2"):    
-        print("apply ScheduleDowntime \"{}\" to Service  \n".format(downtime_name)) 
+        print("apply ScheduleDowntime \"{}\" to Service  {{\n".format(downtime_name)) 
         print(" \t author = \"{}\" \n".format(author))
         print(" \t comment = \"{}\" \n".format(comment))
         print(" \t fixed = {} \n".format(fixed))
@@ -135,7 +137,7 @@ if __name__ == "__main__":
         
 
     if printed is False:
-        print("\t \t \"{} - {}\" = \"{}-{}\"".format(
+        print("\t \t \"{} - {}\" = \t \"{}-{}\"".format(
             prev_start.to(timezone).format(format_date),
             end_tz.format(format_date),
             prev_start.to(timezone).format(format_hours),
@@ -144,5 +146,5 @@ if __name__ == "__main__":
             )
         )
 
-    print("    }")
+    print("\t}")
     print("}")
